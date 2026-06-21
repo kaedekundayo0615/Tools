@@ -1,0 +1,32 @@
+<UserControl x:Class="PgDbOperator.Views.DataReplaceView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Margin="16">
+        <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+        <TextBlock Text="データ入れ替え" FontSize="24" FontWeight="Bold" />
+        <StackPanel Grid.Row="1">
+            <GroupBox Header="入れ替え対象"><Grid><Grid.ColumnDefinitions><ColumnDefinition Width="160"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+                <TextBlock Text="対象アプリ"/><ComboBox Grid.Column="1" ItemsSource="{Binding Applications}" SelectedItem="{Binding SelectedApplication}" DisplayMemberPath="Name" />
+                <TextBlock Grid.Row="1" Text="PostgreSQL設定"/><ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient}" />
+                <TextBlock Grid.Row="2" Text="移行元DB"/><ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Connections}" SelectedItem="{Binding SourceConnection}" />
+                <TextBlock Grid.Row="3" Text="移行元パスワード"/><TextBox Grid.Row="3" Grid.Column="1" Text="{Binding SourcePassword}" />
+                <TextBlock Grid.Row="4" Text="移行先DB"/><ComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding Connections}" SelectedItem="{Binding TargetConnection}" />
+                <TextBlock Grid.Row="5" Text="移行先パスワード"/><TextBox Grid.Row="5" Grid.Column="1" Text="{Binding TargetPassword}" />
+            </Grid></GroupBox>
+            <GroupBox Header="作業設定"><Grid><Grid.ColumnDefinitions><ColumnDefinition Width="160"/><ColumnDefinition Width="*"/><ColumnDefinition Width="120"/></Grid.ColumnDefinitions><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+                <TextBlock Text="作業フォルダ"/><TextBox Grid.Column="1" Text="{Binding WorkDirectory}" />
+                <CheckBox Grid.Row="1" Grid.Column="1" Content="移行先DBを事前バックアップする" IsChecked="{Binding BackupTargetBeforeRestore}" />
+                <TextBlock Grid.Row="2" Text="後処理SQLフォルダ"/><TextBox Grid.Row="2" Grid.Column="1" Text="{Binding AfterRestoreSqlDirectory}"/><Button Grid.Row="2" Grid.Column="2" Content="読込" Command="{Binding LoadAfterRestoreSqlCommand}" />
+            </Grid></GroupBox>
+        </StackPanel>
+        <DataGrid Grid.Row="2" ItemsSource="{Binding AfterRestoreSqlFiles}" AutoGenerateColumns="False" Margin="4">
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn Header="実行" Binding="{Binding IsSelected}" Width="70" />
+                <DataGridTextColumn Header="後処理SQL" Binding="{Binding FileName}" Width="2*" IsReadOnly="True" />
+                <DataGridTextColumn Header="パス" Binding="{Binding FilePath}" Width="4*" IsReadOnly="True" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Grid.Row="3" Orientation="Horizontal">
+            <Button Content="データ入れ替え実行" Command="{Binding ExecuteCommand}" />
+            <TextBlock Text="{Binding Message}" Margin="12,8,0,0" TextWrapping="Wrap" Foreground="DarkGreen" />
+        </StackPanel>
+    </Grid>
+</UserControl>

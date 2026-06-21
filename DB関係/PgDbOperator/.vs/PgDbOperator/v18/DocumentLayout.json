@@ -1,0 +1,69 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Work\\Tools\\DB\u95A2\u4FC2\\PgDbOperator\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{CA52C5E2-6EB9-4F4A-AB07-5D6349B1B7E2}|src\\PgDbOperator.App\\PgDbOperator.App.csproj|c:\\work\\tools\\db\u95A2\u4FC2\\pgdboperator\\src\\pgdboperator.app\\services\\dboperationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CA52C5E2-6EB9-4F4A-AB07-5D6349B1B7E2}|src\\PgDbOperator.App\\PgDbOperator.App.csproj|solutionrelative:src\\pgdboperator.app\\services\\dboperationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CA52C5E2-6EB9-4F4A-AB07-5D6349B1B7E2}|src\\PgDbOperator.App\\PgDbOperator.App.csproj|c:\\work\\tools\\db\u95A2\u4FC2\\pgdboperator\\src\\pgdboperator.app\\infrastructure\\appstoragecontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CA52C5E2-6EB9-4F4A-AB07-5D6349B1B7E2}|src\\PgDbOperator.App\\PgDbOperator.App.csproj|solutionrelative:src\\pgdboperator.app\\infrastructure\\appstoragecontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CA52C5E2-6EB9-4F4A-AB07-5D6349B1B7E2}|src\\PgDbOperator.App\\PgDbOperator.App.csproj|c:\\work\\tools\\db\u95A2\u4FC2\\pgdboperator\\src\\pgdboperator.app\\domain\\models\\postgresclientprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CA52C5E2-6EB9-4F4A-AB07-5D6349B1B7E2}|src\\PgDbOperator.App\\PgDbOperator.App.csproj|solutionrelative:src\\pgdboperator.app\\domain\\models\\postgresclientprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DbOperationService.cs",
+              "DocumentMoniker": "C:\\Work\\Tools\\DB\u95A2\u4FC2\\PgDbOperator\\src\\PgDbOperator.App\\Services\\DbOperationService.cs",
+              "RelativeDocumentMoniker": "src\\PgDbOperator.App\\Services\\DbOperationService.cs",
+              "ToolTip": "C:\\Work\\Tools\\DB\u95A2\u4FC2\\PgDbOperator\\src\\PgDbOperator.App\\Services\\DbOperationService.cs",
+              "RelativeToolTip": "src\\PgDbOperator.App\\Services\\DbOperationService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-21T11:26:14.013Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AppStorageContext.cs",
+              "DocumentMoniker": "C:\\Work\\Tools\\DB\u95A2\u4FC2\\PgDbOperator\\src\\PgDbOperator.App\\Infrastructure\\AppStorageContext.cs",
+              "RelativeDocumentMoniker": "src\\PgDbOperator.App\\Infrastructure\\AppStorageContext.cs",
+              "ToolTip": "C:\\Work\\Tools\\DB\u95A2\u4FC2\\PgDbOperator\\src\\PgDbOperator.App\\Infrastructure\\AppStorageContext.cs",
+              "RelativeToolTip": "src\\PgDbOperator.App\\Infrastructure\\AppStorageContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-21T11:26:06.42Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "PostgresClientProfile.cs",
+              "DocumentMoniker": "C:\\Work\\Tools\\DB\u95A2\u4FC2\\PgDbOperator\\src\\PgDbOperator.App\\Domain\\Models\\PostgresClientProfile.cs",
+              "RelativeDocumentMoniker": "src\\PgDbOperator.App\\Domain\\Models\\PostgresClientProfile.cs",
+              "ToolTip": "C:\\Work\\Tools\\DB\u95A2\u4FC2\\PgDbOperator\\src\\PgDbOperator.App\\Domain\\Models\\PostgresClientProfile.cs",
+              "RelativeToolTip": "src\\PgDbOperator.App\\Domain\\Models\\PostgresClientProfile.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAAAC4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-21T11:25:38.87Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+<UserControl x:Class="PgDbOperator.Views.BackupView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer><StackPanel Margin="16">
+        <TextBlock Text="バックアップ" FontSize="24" FontWeight="Bold" />
+        <TextBlock Text="選択したDBからpg_dumpでDumpファイルを作成します。" Margin="0,4,0,12" />
+        <GroupBox Header="実行対象"><Grid>
+            <Grid.ColumnDefinitions><ColumnDefinition Width="160"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+            <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+            <TextBlock Text="対象アプリ"/><ComboBox Grid.Column="1" ItemsSource="{Binding Applications}" SelectedItem="{Binding SelectedApplication}" DisplayMemberPath="Name" />
+            <TextBlock Grid.Row="1" Text="DB接続"/><ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Connections}" SelectedItem="{Binding SelectedConnection}" />
+            <TextBlock Grid.Row="2" Text="PostgreSQL設定"/><ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient}" />
+            <TextBlock Grid.Row="3" Text="パスワード"/><TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Password}" />
+        </Grid></GroupBox>
+        <GroupBox Header="バックアップ設定"><Grid>
+            <Grid.ColumnDefinitions><ColumnDefinition Width="160"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+            <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+            <TextBlock Text="出力先フォルダ"/><TextBox Grid.Column="1" Text="{Binding OutputDirectory}" />
+            <TextBlock Grid.Row="1" Text="ファイル名"/><DockPanel Grid.Row="1" Grid.Column="1"><Button DockPanel.Dock="Right" Content="自動生成" Command="{Binding GenerateFileNameCommand}"/><TextBox Text="{Binding OutputFileName}" /></DockPanel>
+            <TextBlock Grid.Row="2" Text="Dump形式"/><ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding DumpFormats}" SelectedItem="{Binding DumpFormat}" />
+            <CheckBox Grid.Row="3" Grid.Column="1" Content="所有者情報を含めない" IsChecked="{Binding NoOwner}" />
+            <CheckBox Grid.Row="4" Grid.Column="1" Content="権限情報を含めない" IsChecked="{Binding NoPrivileges}" />
+            <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal"><CheckBox Content="スキーマのみ" IsChecked="{Binding SchemaOnly}"/><CheckBox Content="データのみ" IsChecked="{Binding DataOnly}"/></StackPanel>
+        </Grid></GroupBox>
+        <Button Content="バックアップ実行" Command="{Binding ExecuteCommand}" HorizontalAlignment="Left" Margin="4,12,0,4" />
+        <TextBlock Text="{Binding Message}" TextWrapping="Wrap" Foreground="DarkGreen" />
+    </StackPanel></ScrollViewer>
+</UserControl>

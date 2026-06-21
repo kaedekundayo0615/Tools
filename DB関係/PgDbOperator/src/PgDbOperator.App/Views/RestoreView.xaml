@@ -1,0 +1,20 @@
+<UserControl x:Class="PgDbOperator.Views.RestoreView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer><StackPanel Margin="16">
+        <TextBlock Text="リストア" FontSize="24" FontWeight="Bold" />
+        <TextBlock Text="Dumpファイルまたはplain SQLファイルを対象DBへ復元します。" Margin="0,4,0,12" />
+        <GroupBox Header="実行対象"><Grid><Grid.ColumnDefinitions><ColumnDefinition Width="160"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+            <TextBlock Text="対象アプリ"/><ComboBox Grid.Column="1" ItemsSource="{Binding Applications}" SelectedItem="{Binding SelectedApplication}" DisplayMemberPath="Name" />
+            <TextBlock Grid.Row="1" Text="DB接続"/><ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Connections}" SelectedItem="{Binding SelectedConnection}" />
+            <TextBlock Grid.Row="2" Text="PostgreSQL設定"/><ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient}" />
+            <TextBlock Grid.Row="3" Text="パスワード"/><TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Password}" />
+        </Grid></GroupBox>
+        <GroupBox Header="リストア設定"><Grid><Grid.ColumnDefinitions><ColumnDefinition Width="160"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+            <TextBlock Text="入力ファイル"/><TextBox Grid.Column="1" Text="{Binding InputFilePath}" />
+            <CheckBox Grid.Row="1" Grid.Column="1" Content="既存オブジェクトを削除して復元する" IsChecked="{Binding Clean}" />
+            <CheckBox Grid.Row="2" Grid.Column="1" Content="存在する場合のみ削除する" IsChecked="{Binding IfExists}" />
+            <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal"><CheckBox Content="所有者情報を復元しない" IsChecked="{Binding NoOwner}"/><CheckBox Content="権限情報を復元しない" IsChecked="{Binding NoPrivileges}"/></StackPanel>
+        </Grid></GroupBox>
+        <Button Content="リストア実行" Command="{Binding ExecuteCommand}" HorizontalAlignment="Left" Margin="4,12,0,4" />
+        <TextBlock Text="{Binding Message}" TextWrapping="Wrap" Foreground="DarkGreen" />
+    </StackPanel></ScrollViewer>
+</UserControl>
