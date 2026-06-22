@@ -1,0 +1,45 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "restore PgDbOperator",
+      "type": "process",
+      "command": "dotnet",
+      "args": [
+        "restore",
+        "${workspaceFolder}/PgDbOperator.sln"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "build PgDbOperator.App",
+      "type": "process",
+      "command": "dotnet",
+      "args": [
+        "build",
+        "${workspaceFolder}/src/PgDbOperator.App/PgDbOperator.App.csproj",
+        "--configuration",
+        "Debug",
+        "--no-restore"
+      ],
+      "dependsOn": "restore PgDbOperator",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "clean PgDbOperator.App",
+      "type": "process",
+      "command": "dotnet",
+      "args": [
+        "clean",
+        "${workspaceFolder}/src/PgDbOperator.App/PgDbOperator.App.csproj",
+        "--configuration",
+        "Debug"
+      ],
+      "problemMatcher": "$msCompile"
+    }
+  ]
+}

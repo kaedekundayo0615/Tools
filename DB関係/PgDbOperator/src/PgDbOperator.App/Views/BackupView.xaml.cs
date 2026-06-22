@@ -6,7 +6,7 @@ namespace PgDbOperator.Views;
 /// BackupView。
 /// 画面表示用UserControlです。
 /// </summary>
-public partial class BackupView : UserControl
+public partial class BackupView : System.Windows.Controls.UserControl
 {
     /// <summary>
     /// 画面初期化処理。

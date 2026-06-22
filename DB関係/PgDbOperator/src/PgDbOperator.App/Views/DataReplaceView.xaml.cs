@@ -6,7 +6,7 @@ namespace PgDbOperator.Views;
 /// DataReplaceView。
 /// 画面表示用UserControlです。
 /// </summary>
-public partial class DataReplaceView : UserControl
+public partial class DataReplaceView : System.Windows.Controls.UserControl
 {
     /// <summary>
     /// 画面初期化処理。

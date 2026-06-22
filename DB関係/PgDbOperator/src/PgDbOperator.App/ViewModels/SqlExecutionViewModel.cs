@@ -73,7 +73,7 @@ public sealed class SqlExecutionViewModel : OperationViewModelBase
         try
         {
             var connection = RequireConnection();
-            if (safetyCheckService.IsCautionDatabase(connection) && MessageBox.Show($"注意が必要なDBにSQLを実行します。\n対象DB: {connection.DatabaseName}\n続行しますか？", "SQL実行確認", MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes) return;
+            if (safetyCheckService.IsCautionDatabase(connection) && System.Windows.MessageBox.Show($"注意が必要なDBにSQLを実行します。\n対象DB: {connection.DatabaseName}\n続行しますか？", "SQL実行確認", System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Warning) != System.Windows.MessageBoxResult.Yes) return;
             var targets = SqlFiles.Where(x => x.IsSelected).Select(x => x.FilePath).ToList();
             if (targets.Count == 0) throw new InvalidOperationException("実行対象SQLを選択してください。");
             foreach (var target in targets)

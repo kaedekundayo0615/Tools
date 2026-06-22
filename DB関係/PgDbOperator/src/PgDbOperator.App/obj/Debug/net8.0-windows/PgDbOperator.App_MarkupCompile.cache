@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-C:\Work\Tools\DB関係\PgDbOperator\src\PgDbOperator.App\obj\Debug\net8.0-windows\
+C:\work\git\Tools\DB関係\PgDbOperator\src\PgDbOperator.App\obj\Debug\net8.0-windows\
 PgDbOperator
 none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
-C:\Work\Tools\DB関係\PgDbOperator\src\PgDbOperator.App\App.xaml
+C:\work\git\Tools\DB関係\PgDbOperator\src\PgDbOperator.App\App.xaml
 111668844498
 
 5324359227
-2011662145881
+210-1149059802
 MainWindow.xaml;Views\ApplicationsView.xaml;Views\BackupView.xaml;Views\DataReplaceView.xaml;Views\DbConnectionsView.xaml;Views\HistoryView.xaml;Views\HomeView.xaml;Views\PostgresClientsView.xaml;Views\RestoreView.xaml;Views\SettingsView.xaml;Views\SqlExecutionView.xaml;
 
 False

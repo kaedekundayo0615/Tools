@@ -1,36 +1,410 @@
-<UserControl x:Class="PgDbOperator.Views.ApplicationsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Grid Margin="16">
-        <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock Text="対象アプリ管理" FontSize="24" FontWeight="Bold" Margin="0,0,20,0" />
-            <Button Content="追加" Command="{Binding AddCommand}" />
-            <Button Content="保存" Command="{Binding SaveCommand}" />
-            <Button Content="削除" Command="{Binding DeleteCommand}" />
-        </StackPanel>
-        <Grid Grid.Row="1" Margin="0,12,0,0">
-            <Grid.ColumnDefinitions><ColumnDefinition Width="2*"/><ColumnDefinition Width="3*"/></Grid.ColumnDefinitions>
-            <DataGrid ItemsSource="{Binding Applications}" SelectedItem="{Binding SelectedApplication}" AutoGenerateColumns="False">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="アプリ名" Binding="{Binding Name}" Width="2*" />
-                    <DataGridTextColumn Header="種別" Binding="{Binding ApplicationType}" Width="*" />
-                    <DataGridCheckBoxColumn Header="有効" Binding="{Binding IsEnabled}" Width="70" />
-                </DataGrid.Columns>
-            </DataGrid>
-            <GroupBox Grid.Column="1" Header="詳細">
-                <Grid DataContext="{Binding SelectedApplication}">
-                    <Grid.ColumnDefinitions><ColumnDefinition Width="160"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <TextBlock Text="アプリ名"/><TextBox Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
-                    <TextBlock Grid.Row="1" Text="種別"/><ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding DataContext.ApplicationTypes, RelativeSource={RelativeSource AncestorType=UserControl}}" SelectedItem="{Binding ApplicationType}" />
-                    <TextBlock Grid.Row="2" Text="標準バックアップ先"/><TextBox Grid.Row="2" Grid.Column="1" Text="{Binding DefaultBackupDirectory, UpdateSourceTrigger=PropertyChanged}" />
-                    <TextBlock Grid.Row="3" Text="標準SQLフォルダ"/><TextBox Grid.Row="3" Grid.Column="1" Text="{Binding DefaultSqlDirectory, UpdateSourceTrigger=PropertyChanged}" />
-                    <TextBlock Grid.Row="4" Text="有効"/><CheckBox Grid.Row="4" Grid.Column="1" IsChecked="{Binding IsEnabled}" />
-                    <TextBlock Grid.Row="5" Text="説明"/><TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Description}" AcceptsReturn="True" TextWrapping="Wrap" />
-                </Grid>
-            </GroupBox>
+<UserControl x:Class="PgDbOperator.Views.ApplicationsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="AppsPageBackgroundBrush" Color="#FFFFFFFF"/>
+        <SolidColorBrush x:Key="AppsPanelBackgroundBrush" Color="#FFFFFFFF"/>
+        <SolidColorBrush x:Key="AppsBorderBrush" Color="#FFDDE5EF"/>
+        <SolidColorBrush x:Key="AppsStrongBorderBrush" Color="#FFB8C7DA"/>
+        <SolidColorBrush x:Key="AppsTextBrush" Color="#FF1F2937"/>
+        <SolidColorBrush x:Key="AppsSubTextBrush" Color="#FF5F6B7A"/>
+        <SolidColorBrush x:Key="AppsPrimaryBrush" Color="#FF020817"/>
+        <SolidColorBrush x:Key="AppsPrimaryHoverBrush" Color="#FF1D2738"/>
+        <SolidColorBrush x:Key="AppsSelectedRowBrush" Color="#FFEAF3FF"/>
+        <SolidColorBrush x:Key="AppsSelectedTextBrush" Color="#FF0B4F9C"/>
+        <SolidColorBrush x:Key="AppsHeaderBackgroundBrush" Color="#FF020817"/>
+        <SolidColorBrush x:Key="AppsDialogBackgroundBrush" Color="#FFF7FAFD"/>
+
+        <Style x:Key="AppsPrimaryButtonStyle" TargetType="Button">
+            <Setter Property="MinWidth" Value="88"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Padding" Value="16,0"/>
+            <Setter Property="Background" Value="{StaticResource AppsPrimaryBrush}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="{StaticResource AppsPrimaryBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="ButtonBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="5">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="{StaticResource AppsPrimaryHoverBrush}"/>
+                                <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{StaticResource AppsPrimaryHoverBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Opacity" Value="0.86"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="ButtonBorder" Property="Opacity" Value="0.55"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="AppsSecondaryButtonStyle" TargetType="Button" BasedOn="{StaticResource AppsPrimaryButtonStyle}">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="{StaticResource AppsTextBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource AppsStrongBorderBrush}"/>
+        </Style>
+
+        <Style x:Key="AppsDangerButtonStyle" TargetType="Button" BasedOn="{StaticResource AppsPrimaryButtonStyle}">
+            <Setter Property="Background" Value="#FFDC2626"/>
+            <Setter Property="BorderBrush" Value="#FFDC2626"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+
+        <Style x:Key="AppsSearchTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Height" Value="24"/>
+            <Setter Property="Padding" Value="12,0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="{StaticResource AppsTextBrush}"/>
+            <Setter Property="BorderBrush" Value="#FF8BA4BF"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border x:Name="Border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="4">
+                            <ScrollViewer x:Name="PART_ContentHost" Margin="8,0"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#FF2563EB"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="AppsInputStyle" TargetType="TextBox">
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Padding" Value="10,0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="{StaticResource AppsStrongBorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style x:Key="AppsFormLabelStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource AppsTextBrush}"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0,0,10,0"/>
+        </Style>
+
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="{StaticResource AppsHeaderBackgroundBrush}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Height" Value="22"/>
+            <Setter Property="Padding" Value="14,0"/>
+            <Setter Property="BorderBrush" Value="#FFCBD5E1"/>
+            <Setter Property="BorderThickness" Value="0,0,1,1"/>
+        </Style>
+
+        <Style TargetType="DataGridRow">
+            <EventSetter Event="PreviewMouseLeftButtonUp" Handler="ApplicationsDataGridRow_PreviewMouseLeftButtonUp"/>
+            <Setter Property="MinHeight" Value="24"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="{StaticResource AppsTextBrush}"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#FFF8FBFF"/>
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="{StaticResource AppsSelectedRowBrush}"/>
+                    <Setter Property="Foreground" Value="{StaticResource AppsSelectedTextBrush}"/>
+                    <Setter Property="FontWeight" Value="SemiBold"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="DataGridCell">
+            <Setter Property="Padding" Value="14,0"/>
+            <Setter Property="BorderBrush" Value="{StaticResource AppsBorderBrush}"/>
+            <Setter Property="BorderThickness" Value="0,0,1,1"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="{StaticResource AppsSelectedRowBrush}"/>
+                    <Setter Property="Foreground" Value="{StaticResource AppsSelectedTextBrush}"/>
+                    <Setter Property="BorderBrush" Value="#FFD6E7FF"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid x:Name="AppsRoot"
+          Background="{StaticResource AppsPageBackgroundBrush}"
+          PreviewMouseDown="AppsRoot_PreviewMouseDown">
+        <Grid Margin="18,14,50,18">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Margin="0,0,0,12">
+                <TextBlock Text="対象アプリ一覧"
+                           Foreground="#FF003A70"
+                           FontSize="14"
+                           FontWeight="Bold"/>
+                <TextBlock Text="登録済みのアプリと直近のDB操作履歴を確認します。"
+                           Foreground="{StaticResource AppsTextBrush}"
+                           Margin="0,12,0,0"/>
+            </StackPanel>
+
+            <Grid Grid.Row="1" Margin="6,0,0,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="680"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0"
+                         Style="{StaticResource AppsSearchTextBoxStyle}"
+                         Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
+                <Button Grid.Column="1"
+                        Content="検索"
+                        Command="{Binding SearchCommand}"
+                        Width="78"
+                        Height="24"
+                        Margin="16,0,0,0"
+                        Style="{StaticResource AppsPrimaryButtonStyle}"/>
+            </Grid>
+
+            <Grid Grid.Row="2" Margin="0,0,0,12">
+                <Button Content="追加"
+                        Command="{Binding AddCommand}"
+                        HorizontalAlignment="Right"
+                        Width="80"
+                        Height="24"
+                        Style="{StaticResource AppsPrimaryButtonStyle}"/>
+            </Grid>
+
+            <Grid Grid.Row="3">
+                <DataGrid x:Name="ApplicationsDataGrid"
+                          ItemsSource="{Binding FilteredApplications}"
+                          SelectedItem="{Binding SelectedApplication, Mode=TwoWay}"
+                          AutoGenerateColumns="False"
+                          CanUserAddRows="False"
+                          CanUserDeleteRows="False"
+                          IsReadOnly="True"
+                          GridLinesVisibility="Horizontal"
+                          HeadersVisibility="Column"
+                          SelectionMode="Single"
+                          SelectionUnit="FullRow"
+                          RowHeaderWidth="0"
+                          Background="White"
+                          BorderBrush="#FF0F2D4F"
+                          BorderThickness="1"
+                          HorizontalGridLinesBrush="{StaticResource AppsBorderBrush}"
+                          VerticalGridLinesBrush="Transparent"
+                          VerticalAlignment="Top">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="アプリ名" Binding="{Binding Name}" Width="2*"/>
+                        <DataGridTextColumn Header="種別" Binding="{Binding ApplicationTypeDisplayName}" Width="*"/>
+                        <DataGridTextColumn Header="標準バックアップ先" Binding="{Binding DefaultBackupDirectory}" Width="3*"/>
+                        <DataGridTextColumn Header="有効" Binding="{Binding IsEnabledDisplayName}" Width="120"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <Popup x:Name="ActionPopupHost"
+                       IsOpen="{Binding IsActionPopupOpen, Mode=TwoWay}"
+                       PlacementTarget="{Binding ElementName=ApplicationsDataGrid}"
+                       DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}"
+                       Placement="MousePoint"
+                       StaysOpen="True"
+                       AllowsTransparency="True">
+                    <Border Width="160"
+                            Background="#FFF2F6FB"
+                            BorderBrush="#FF71839A"
+                            BorderThickness="1"
+                            CornerRadius="3"
+                            Padding="10">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="14" ShadowDepth="2" Opacity="0.22"/>
+                        </Border.Effect>
+                        <StackPanel>
+                            <Button Content="編集"
+                                    Command="{Binding EditCommand}"
+                                    Height="30"
+                                    Margin="0,0,0,8"
+                                    Style="{StaticResource AppsSecondaryButtonStyle}"/>
+                            <Button Content="{Binding ToggleEnabledButtonText}"
+                                    Command="{Binding ToggleEnabledCommand}"
+                                    Height="30"
+                                    Margin="0,0,0,8"
+                                    Style="{StaticResource AppsSecondaryButtonStyle}"/>
+                            <Button Content="コピー"
+                                    Command="{Binding CopyCommand}"
+                                    Height="30"
+                                    Margin="0,0,0,8"
+                                    Style="{StaticResource AppsSecondaryButtonStyle}"/>
+                            <Button Content="削除"
+                                    Command="{Binding DeleteCommand}"
+                                    Height="30"
+                                    Style="{StaticResource AppsDangerButtonStyle}"/>
+                        </StackPanel>
+                    </Border>
+                </Popup>
+            </Grid>
+
+            <TextBlock Grid.Row="4"
+                       Text="{Binding Message}"
+                       Foreground="#FF256029"
+                       Margin="4,10,0,0"/>
         </Grid>
-        <TextBlock Grid.Row="2" Text="{Binding Message}" Foreground="DarkGreen" />
+
+        <Grid x:Name="EditDialogHost"
+              Background="#66000000"
+              Visibility="{Binding EditDialogVisibility}">
+            <Border Width="820"
+                    Height="486"
+                    Background="{StaticResource AppsDialogBackgroundBrush}"
+                    BorderBrush="{StaticResource AppsBorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="48"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="64"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0"
+                            Background="{StaticResource AppsPrimaryBrush}"
+                            CornerRadius="8,8,0,0"
+                            Padding="16,0">
+                        <TextBlock Text="{Binding DialogTitle}"
+                                   Foreground="White"
+                                   FontSize="15"
+                                   FontWeight="Bold"
+                                   VerticalAlignment="Center"/>
+                    </Border>
+
+                    <Grid Grid.Row="1"
+                          Margin="16"
+                          DataContext="{Binding EditingApplication}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="108"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="110"/>
+                            <ColumnDefinition Width="226"/>
+                            <ColumnDefinition Width="92"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="アプリ名称" Style="{StaticResource AppsFormLabelStyle}"/>
+                        <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="4"
+                                 Style="{StaticResource AppsInputStyle}"
+                                 Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="種別" Style="{StaticResource AppsFormLabelStyle}" Margin="0,12,10,0"/>
+                        <ComboBox Grid.Row="1" Grid.Column="1"
+                                  Height="32"
+                                  Margin="0,12,18,0"
+                                  ItemsSource="{Binding DataContext.ApplicationTypes, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                  DisplayMemberPath="DisplayName"
+                                  SelectedValuePath="Value"
+                                  SelectedValue="{Binding ApplicationType, Mode=TwoWay}"/>
+
+                        <TextBlock Grid.Row="1" Grid.Column="2" Text="有効/無効" Style="{StaticResource AppsFormLabelStyle}" Margin="0,12,10,0"/>
+                        <ComboBox Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2"
+                                  Height="32"
+                                  Margin="0,12,0,0"
+                                  ItemsSource="{Binding DataContext.EnabledStatusOptions, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                  DisplayMemberPath="DisplayName"
+                                  SelectedValuePath="Value"
+                                  SelectedValue="{Binding IsEnabled, Mode=TwoWay}"/>
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="標準バックアップ" Style="{StaticResource AppsFormLabelStyle}" Margin="0,12,10,0"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3"
+                                 Style="{StaticResource AppsInputStyle}"
+                                 Margin="0,12,8,0"
+                                 Text="{Binding DefaultBackupDirectory, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Button Grid.Row="2" Grid.Column="4"
+                                Content="フォルダ選択"
+                                Command="{Binding DataContext.SelectBackupDirectoryCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                Height="32"
+                                MinWidth="86"
+                                Margin="0,12,0,0"
+                                Style="{StaticResource AppsSecondaryButtonStyle}"/>
+
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="実行SQLパス" Style="{StaticResource AppsFormLabelStyle}" Margin="0,12,10,0"/>
+                        <TextBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3"
+                                 Style="{StaticResource AppsInputStyle}"
+                                 Margin="0,12,8,0"
+                                 Text="{Binding DefaultSqlDirectory, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Button Grid.Row="3" Grid.Column="4"
+                                Content="フォルダ選択"
+                                Command="{Binding DataContext.SelectSqlDirectoryCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                Height="32"
+                                MinWidth="86"
+                                Margin="0,12,0,0"
+                                Style="{StaticResource AppsSecondaryButtonStyle}"/>
+
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="説明" Style="{StaticResource AppsFormLabelStyle}" Margin="0,12,10,0" VerticalAlignment="Top"/>
+                        <TextBox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="4"
+                                 Margin="0,12,0,0"
+                                 Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
+                                 AcceptsReturn="True"
+                                 TextWrapping="Wrap"
+                                 VerticalScrollBarVisibility="Auto"
+                                 BorderBrush="{StaticResource AppsStrongBorderBrush}"
+                                 BorderThickness="1"/>
+                    </Grid>
+
+                    <Grid Grid.Row="2" Margin="16,12">
+                        <TextBlock Text="{Binding Message}"
+                                   Foreground="#FFDC2626"
+                                   FontWeight="SemiBold"
+                                   VerticalAlignment="Center"
+                                   TextWrapping="Wrap"
+                                   Margin="0,0,250,0"/>
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Right">
+                            <Button Content="閉じる"
+                                    Command="{Binding CloseEditCommand}"
+                                    Width="110"
+                                    Height="36"
+                                    Margin="0,0,16,0"
+                                    Style="{StaticResource AppsSecondaryButtonStyle}"/>
+                            <Button Content="登録"
+                                    Command="{Binding SaveEditCommand}"
+                                    Width="110"
+                                    Height="36"
+                                    Style="{StaticResource AppsPrimaryButtonStyle}"/>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
     </Grid>
 </UserControl>

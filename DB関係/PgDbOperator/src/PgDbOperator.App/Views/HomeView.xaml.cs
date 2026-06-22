@@ -6,7 +6,7 @@ namespace PgDbOperator.Views;
 /// HomeView。
 /// 画面表示用UserControlです。
 /// </summary>
-public partial class HomeView : UserControl
+public partial class HomeView : System.Windows.Controls.UserControl
 {
     /// <summary>
     /// 画面初期化処理。

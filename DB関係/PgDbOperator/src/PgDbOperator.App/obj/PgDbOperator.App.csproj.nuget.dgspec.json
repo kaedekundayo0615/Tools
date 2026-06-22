@@ -1,31 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Work\\Tools\\DB関係\\PgDbOperator\\src\\PgDbOperator.App\\PgDbOperator.App.csproj": {}
+    "C:\\work\\git\\Tools\\DB関係\\PgDbOperator\\src\\PgDbOperator.App\\PgDbOperator.App.csproj": {}
   },
   "projects": {
-    "C:\\Work\\Tools\\DB関係\\PgDbOperator\\src\\PgDbOperator.App\\PgDbOperator.App.csproj": {
+    "C:\\work\\git\\Tools\\DB関係\\PgDbOperator\\src\\PgDbOperator.App\\PgDbOperator.App.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Work\\Tools\\DB関係\\PgDbOperator\\src\\PgDbOperator.App\\PgDbOperator.App.csproj",
+        "projectUniqueName": "C:\\work\\git\\Tools\\DB関係\\PgDbOperator\\src\\PgDbOperator.App\\PgDbOperator.App.csproj",
         "projectName": "PgDbOperator.App",
-        "projectPath": "C:\\Work\\Tools\\DB関係\\PgDbOperator\\src\\PgDbOperator.App\\PgDbOperator.App.csproj",
-        "packagesPath": "C:\\Users\\kaede\\.nuget\\packages\\",
-        "outputPath": "C:\\Work\\Tools\\DB関係\\PgDbOperator\\src\\PgDbOperator.App\\obj\\",
+        "projectPath": "C:\\work\\git\\Tools\\DB関係\\PgDbOperator\\src\\PgDbOperator.App\\PgDbOperator.App.csproj",
+        "packagesPath": "C:\\Users\\shinz\\.nuget\\packages\\",
+        "outputPath": "C:\\work\\git\\Tools\\DB関係\\PgDbOperator\\src\\PgDbOperator.App\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\kaede\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\shinz\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0-windows"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -80,7 +74,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.301/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

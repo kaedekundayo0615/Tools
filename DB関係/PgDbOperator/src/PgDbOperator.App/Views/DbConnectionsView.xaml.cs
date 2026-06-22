@@ -6,7 +6,7 @@ namespace PgDbOperator.Views;
 /// DbConnectionsView。
 /// 画面表示用UserControlです。
 /// </summary>
-public partial class DbConnectionsView : UserControl
+public partial class DbConnectionsView : System.Windows.Controls.UserControl
 {
     /// <summary>
     /// 画面初期化処理。

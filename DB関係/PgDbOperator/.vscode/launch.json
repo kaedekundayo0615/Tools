@@ -1,0 +1,20 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "PgDbOperator.App - Debug",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build PgDbOperator.App",
+      "program": "${workspaceFolder}/src/PgDbOperator.App/bin/Debug/net8.0-windows/PgDbOperator.App.exe",
+      "args": [],
+      "cwd": "${workspaceFolder}/src/PgDbOperator.App",
+      "stopAtEntry": false,
+      "console": "internalConsole",
+      "justMyCode": true,
+      "env": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  ]
+}

@@ -8,6 +8,7 @@ public enum ApplicationType
 {
     WebSystem,
     DesktopApplication,
+    CompanyServer,
     HomePage,
     Batch,
     InternalTool,

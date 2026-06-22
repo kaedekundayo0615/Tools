@@ -73,7 +73,7 @@ public sealed class DataReplaceViewModel : OperationViewModelBase
             if (SourceConnection == null) throw new InvalidOperationException("移行元DBを選択してください。");
             if (TargetConnection == null) throw new InvalidOperationException("移行先DBを選択してください。");
             if (safetyCheckService.IsSameDatabase(SourceConnection, TargetConnection)) throw new InvalidOperationException("移行元DBと移行先DBが同一です。");
-            if (safetyCheckService.IsCautionDatabase(TargetConnection) && MessageBox.Show($"注意が必要なDBを移行先にしています。\n移行先DB: {TargetConnection.DatabaseName}\n続行しますか？", "データ入れ替え確認", MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes) return;
+            if (safetyCheckService.IsCautionDatabase(TargetConnection) && System.Windows.MessageBox.Show($"注意が必要なDBを移行先にしています。\n移行先DB: {TargetConnection.DatabaseName}\n続行しますか？", "データ入れ替え確認", System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Warning) != System.Windows.MessageBoxResult.Yes) return;
             var sqlFiles = AfterRestoreSqlFiles.Where(x => x.IsSelected).Select(x => x.FilePath).ToList();
             var histories = await operationService.ReplaceDataAsync(RequireApplication(), SourceConnection, TargetConnection, RequireClient(), SourcePassword, TargetPassword, WorkDirectory, BackupTargetBeforeRestore, sqlFiles);
             Message = $"データ入れ替え完了: 成功 {histories.Count(x => x.Result == ExecutionResult.Success)} 件 / 失敗 {histories.Count(x => x.Result == ExecutionResult.Failed)} 件";

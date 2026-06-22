@@ -39,7 +39,7 @@ public sealed class RestoreViewModel : OperationViewModelBase
         {
             var app = RequireApplication();
             var connection = RequireConnection();
-            if (safetyCheckService.IsCautionDatabase(connection) && MessageBox.Show($"注意が必要なDBにリストアを実行します。\n対象DB: {connection.DatabaseName}\nこの操作は破壊的な変更になる可能性があります。続行しますか？", "リストア確認", MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes) return;
+            if (safetyCheckService.IsCautionDatabase(connection) && System.Windows.MessageBox.Show($"注意が必要なDBにリストアを実行します。\n対象DB: {connection.DatabaseName}\nこの操作は破壊的な変更になる可能性があります。続行しますか？", "リストア確認", System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Warning) != System.Windows.MessageBoxResult.Yes) return;
             var history = await operationService.RestoreAsync(app, connection, RequireClient(), Password, InputFilePath, Clean, IfExists, NoOwner, NoPrivileges);
             Message = history.Result == ExecutionResult.Success ? "リストア成功。" : $"リストア失敗: {history.StandardError}";
         }

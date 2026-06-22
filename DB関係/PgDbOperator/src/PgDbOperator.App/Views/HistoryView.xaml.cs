@@ -6,7 +6,7 @@ namespace PgDbOperator.Views;
 /// HistoryView。
 /// 画面表示用UserControlです。
 /// </summary>
-public partial class HistoryView : UserControl
+public partial class HistoryView : System.Windows.Controls.UserControl
 {
     /// <summary>
     /// 画面初期化処理。

@@ -61,7 +61,7 @@ public sealed class BackupViewModel : OperationViewModelBase
             if (string.IsNullOrWhiteSpace(OutputDirectory)) throw new InvalidOperationException("出力先フォルダを入力してください。");
             if (string.IsNullOrWhiteSpace(OutputFileName)) GenerateFileName();
             var outputPath = Path.Combine(OutputDirectory, OutputFileName);
-            if (safetyCheckService.IsCautionDatabase(connection) && MessageBox.Show($"注意が必要なDBにバックアップを実行します。\n対象DB: {connection.DatabaseName}\n続行しますか？", "実行確認", MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes) return;
+            if (safetyCheckService.IsCautionDatabase(connection) && System.Windows.MessageBox.Show($"注意が必要なDBにバックアップを実行します。\n対象DB: {connection.DatabaseName}\n続行しますか？", "実行確認", System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Warning) != System.Windows.MessageBoxResult.Yes) return;
             var history = await operationService.BackupAsync(app, connection, client, Password, outputPath, DumpFormat, NoOwner, NoPrivileges, SchemaOnly, DataOnly);
             Message = history.Result == ExecutionResult.Success ? $"バックアップ成功: {outputPath}" : $"バックアップ失敗: {history.StandardError}";
         }

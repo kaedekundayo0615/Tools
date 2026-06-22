@@ -333,19 +333,7 @@
 
         <!-- 右：メイン領域 -->
         <Border Grid.Column="1" Background="White">
-            <DockPanel>
-                <Border DockPanel.Dock="Top" Background="White" BorderBrush="#FFE0E0E0" BorderThickness="0,0,0,1" Padding="18,12">
-                    <StackPanel>
-                        <TextBlock Text="PostgreSQL DB運用支援ツール" FontSize="18" FontWeight="Bold" Foreground="#FF222222"/>
-                        <TextBlock Text="バックアップ・リストア・SQL実行・データ入れ替えを一元管理します。"
-                                   Margin="0,3,0,0"
-                                   FontSize="12"
-                                   Foreground="#FF666666"/>
-                    </StackPanel>
-                </Border>
-
-                <ContentControl Content="{Binding CurrentView}" />
-            </DockPanel>
+            <ContentControl Content="{Binding CurrentView}" />
         </Border>
     </Grid>
 </Window>

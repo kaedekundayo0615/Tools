@@ -6,7 +6,7 @@ namespace PgDbOperator.Views;
 /// SqlExecutionView。
 /// 画面表示用UserControlです。
 /// </summary>
-public partial class SqlExecutionView : UserControl
+public partial class SqlExecutionView : System.Windows.Controls.UserControl
 {
     /// <summary>
     /// 画面初期化処理。

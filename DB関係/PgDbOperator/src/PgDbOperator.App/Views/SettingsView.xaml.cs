@@ -6,7 +6,7 @@ namespace PgDbOperator.Views;
 /// SettingsView。
 /// 画面表示用UserControlです。
 /// </summary>
-public partial class SettingsView : UserControl
+public partial class SettingsView : System.Windows.Controls.UserControl
 {
     /// <summary>
     /// 画面初期化処理。
