@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PgDbOperator.App")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+160931a97f3fbfcd476f7bffa79362b7d134bebb")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c9cd98ad7c619eef114a0f1fa170e97a770b28ad")]
 [assembly: System.Reflection.AssemblyProductAttribute("PgDbOperator.App")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PgDbOperator.App")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
